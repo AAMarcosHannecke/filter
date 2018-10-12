@@ -1,0 +1,17 @@
+@import url(https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css);
+
+$primary: #7851A9;
+$light-grey: #f9f9f9;
+$grey: #d9d9d9;
+
+.list-group-item.active, .custom-checkbox .custom-control-input:checked~.custom-control-label::before {
+  background: $primary;
+  border-color: $primary;
+}
+
+.bg-light-grey{
+  background: $light-grey;
+}
+.border{
+  border: 1px solid $grey;
+}
