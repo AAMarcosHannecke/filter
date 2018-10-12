@@ -16,19 +16,21 @@
             <div class="row">
               <div class="col">
                 <h3>{{selectedDimension.display_name}}</h3>
-                <p class="lead">Query:</p>
+                <p class="lead">Query: {{query | json}}</p>
               </div>
               <div class="col-2">
                 <div class="input-group input-group-sm">
                   <input type="text" class="form-control" aria-label="Sizing example input"
-                         aria-describedby="inputGroup-sizing-sm" placeholder="Search">
+                         aria-describedby="inputGroup-sizing-sm" placeholder="Search values">
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col-6 mt-1">
                 <div class="custom-control custom-checkbox ">
-                  <input type="checkbox" class="custom-control-input" id="selectAllValues">
+                  <input type="checkbox" class="custom-control-input" id="selectAllValues"
+                         [(ngModel)]="areAllChecked"
+                         (click)="selectAll($event.target.checked)">
                   <label class="custom-control-label" for="selectAllValues">Select All</label>
                 </div>
               </div>
@@ -40,9 +42,18 @@
               </div>
               <div class="col-12">
                 <hr>
-                <div class="custom-control custom-checkbox" *ngFor="let d of dimensions">
-                  <input type="checkbox" class="custom-control-input" id="{{d.id}}">
-                  <label class="custom-control-label" for="{{d.id}}">{{d.display_name}}</label>
+                <div class="custom-control custom-checkbox" *ngFor="let qr of queryResults">
+                  <input type="checkbox" class="custom-control-input"
+                         (click)="qr.checked = !qr.checked; allChecked();"
+                         id="{{qr.name}}"
+                         [value]="qr.checked"
+                         [(ngModel)]="qr.checked">
+                  <ng-container *ngIf="selectedDimension.type !== 'time'; else pipeDate">
+                    <label class="custom-control-label" for="{{qr.name}}">{{qr.name}} {{qr.checked}}</label>
+                  </ng-container>
+                  <ng-template #pipeDate>
+                    <label class="custom-control-label" for="{{qr.name}}">{{qr.name | date}}</label>
+                  </ng-template>
                 </div>
               </div>
             </div>
