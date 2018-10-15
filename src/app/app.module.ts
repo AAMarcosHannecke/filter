@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { TestComponentComponent } from './components/test-component/test-component.component';
 import { AppRoutingModule } from './app-routing.module';
 import {FilterModule} from './filter/filter.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import {FilterModule} from './filter/filter.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FilterModule
+    FilterModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

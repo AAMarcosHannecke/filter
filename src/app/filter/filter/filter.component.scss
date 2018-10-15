@@ -1,17 +1,85 @@
-@import url(https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css);
+//@import url(https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css);
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 $primary: #7851A9;
 $light-grey: #f9f9f9;
 $grey: #d9d9d9;
 
-.list-group-item.active, .custom-checkbox .custom-control-input:checked~.custom-control-label::before {
-  background: $primary;
-  border-color: $primary;
-}
-
-.bg-light-grey{
+.bg-light-grey {
   background: $light-grey;
 }
-.border{
+
+.border {
   border: 1px solid $grey;
+}
+
+.dimmed {
+  color: $grey;
+}
+
+/******************************************/
+.p-n {
+  padding: 0 !important;
+}
+
+.m-n {
+  margin: 0 !important;
+}
+
+.bg-white {
+  background: white;
+}
+
+.overflow {
+  overflow-y: scroll;
+}
+
+/** Material **/
+.mat-list, .mat-nav-list, .mat-selection-list {
+  width: 100%;
+  height: 100%;
+}
+
+.aa-list-item {
+  height: 32px !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  a {
+    font-size: 13px;
+  }
+  &.active, &:hover {
+    background: $primary !important;
+    border-color: $primary !important;
+    color: white !important;
+  }
+}
+
+.aa-checkbox-list-item {
+  height: 32px !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+label {
+  margin: 0 !important;
+}
+
+.search-icon {
+  padding: 10px;
+  position: relative;
+  top: 8px;
+}
+
+.search-input {
+  font-size: 13px !important;
+}
+
+.aa-dimensions {
+  border-right: 1px solid rgba(0, 0, 0, 0.24);
+}
+
+.spacer {
+  flex: 1 1 auto;
 }

@@ -1,65 +1,127 @@
-<div class="container-fluid">
-  <div class="p-5 m-5 shadow-lg rounded bg-light-grey border">
-    <div class="row pl-5 pr-5">
-      <div class="col-4">
-        <ul class="list-group ">
-          <li class="list-group-item list-group-item-action" (click)="selectDimension(d)"
-              [ngClass]="{active: d.id === selectedDimension.id}"
-              *ngFor="let d of dimensions">
-            <a>{{d.display_name}}</a>
-          </li>
-        </ul>
-      </div>
-      <div class="col">
-        <div class="container" *ngIf="selectedDimension.id">
-          <div class="card p-4 ">
-            <div class="row">
-              <div class="col">
-                <h3>{{selectedDimension.display_name}}</h3>
-                <p class="lead">Query: {{query | json}}</p>
-              </div>
-              <div class="col-2">
-                <div class="input-group input-group-sm">
-                  <input type="text" class="form-control" aria-label="Sizing example input"
-                         aria-describedby="inputGroup-sizing-sm" placeholder="Search values">
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-6 mt-1">
-                <div class="custom-control custom-checkbox ">
-                  <input type="checkbox" class="custom-control-input" id="selectAllValues"
-                         [(ngModel)]="areAllChecked"
-                         (click)="selectAll($event.target.checked)">
-                  <label class="custom-control-label" for="selectAllValues">Select All</label>
-                </div>
-              </div>
-              <div class="col-6 mt-1">
-                <div class="custom-control custom-checkbox  float-right">
-                  <input type="checkbox" class="custom-control-input" id="excludeValues">
-                  <label class="custom-control-label" for="excludeValues">Exclude</label>
-                </div>
-              </div>
-              <div class="col-12">
-                <hr>
-                <div class="custom-control custom-checkbox" *ngFor="let qr of queryResults">
-                  <input type="checkbox" class="custom-control-input"
-                         (click)="qr.checked = !qr.checked; allChecked();"
-                         id="{{qr.name}}"
-                         [value]="qr.checked"
-                         [(ngModel)]="qr.checked">
-                  <ng-container *ngIf="selectedDimension.type !== 'time'; else pipeDate">
-                    <label class="custom-control-label" for="{{qr.name}}">{{qr.name}} {{qr.checked}}</label>
-                  </ng-container>
-                  <ng-template #pipeDate>
-                    <label class="custom-control-label" for="{{qr.name}}">{{qr.name | date}}</label>
-                  </ng-template>
-                </div>
-              </div>
-            </div>
-          </div>
+<mat-card class="mat-drawer-container p-n">
+  <mat-grid-list [cols]="3">
+    <mat-grid-tile class="aa-dimensions" colspan="1" rowspan="1">
+      <mat-list class="aa-list p-n">
+        <mat-list-item class="bg-white aa-list-item"
+                       (click)="selectDimension(d)"
+                       [ngClass]="{active: d.id === dimensionSelected.id}"
+                       *ngFor="let d of dimensions">
+          <a>{{d.display_name}}</a>
+        </mat-list-item>
+      </mat-list>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="2" rowspan="1">
+      <mat-list class="aa-list p-n">
+        <div class="search">
+          <mat-icon class="search-icon">search</mat-icon>
+          <mat-form-field class="search-input p-n">
+            <input matInput placeholder="Search" (keyup)="search()" [(ngModel)]="searchValue">
+          </mat-form-field>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
+        <mat-list-item class="aa-checkbox-list-item">
+          <mat-checkbox [(ngModel)]="areAllChecked"
+                        (change)="selectAll(); buildConditions()">
+            Select All
+          </mat-checkbox>
+          <span class="spacer"></span>
+          <mat-checkbox class="float-right">
+           Exclude
+          </mat-checkbox>
+        </mat-list-item>
+        <div class="overflow">
+        <ng-container *ngFor="let qr of queryResultsFound" >
+          <mat-list-item class="bg-white aa-checkbox-list-item">
+            <ng-container *ngIf="dimensionSelected.type !== 'time'; else pipeDate">
+              <mat-checkbox  [(ngModel)]="qr.checked" (change)="allChecked();  buildConditions();" > {{qr.name}}</mat-checkbox>
+            </ng-container>
+            <ng-template #pipeDate>
+              <mat-checkbox  [(ngModel)]="qr.checked"  (change)=" allChecked(); buildConditions();"> {{qr.name | date}}</mat-checkbox>
+            </ng-template>
+          </mat-list-item>
+        </ng-container>
+        </div>
+      </mat-list>
+    </mat-grid-tile>
+  </mat-grid-list>
+</mat-card>
+
+<!--<div class="container-fluid">-->
+  <!--<div class="p-3 m-5 shadow-lg rounded bg-light-grey border">-->
+    <!--<div class="row pl-5 pr-5">-->
+      <!--<div class="col-12">-->
+        <!--<p>-->
+<!--<span class="badge badge-secondary mr-1" *ngFor="let cond of conditions">{{cond['name']}}:-->
+<!--<span *ngFor="let i of cond['in']">{{i}}, </span> X-->
+<!--</span>-->
+        <!--</p>-->
+      <!--</div>-->
+      <!--<div class="col-4">-->
+        <!--<ul class="list-group ">-->
+          <!--<li class="list-group-item list-group-item-action" (click)="selectDimension(d)"-->
+              <!--[ngClass]="{active: d.id === dimensionSelected.id}"-->
+              <!--*ngFor="let d of dimensions">-->
+            <!--<a>{{d.display_name}}</a>-->
+          <!--</li>-->
+        <!--</ul>-->
+      <!--</div>-->
+      <!--<div class="col">-->
+        <!--<div class="container" *ngIf="dimensionSelected.id">-->
+          <!--<div class="card p-4 ">-->
+            <!--<div class="row">-->
+              <!--<div class="col">-->
+                <!--<h3>{{dimensionSelected.display_name}}</h3>-->
+                <!--<p class="lead"><strong>Query:</strong> {{query | json}}</p>-->
+              <!--</div>-->
+              <!--<div class="col-2">-->
+                <!--<div class="input-group input-group-sm">-->
+                  <!--<input type="text" class="form-control" aria-label="Sizing example input"-->
+                         <!--aria-describedby="inputGroup-sizing-sm" placeholder="Search values"-->
+                         <!--(keyup)="search()"-->
+                         <!--[(ngModel)]="searchValue"-->
+                  <!--&gt;-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<div class="row">-->
+              <!--<div class="col-6 mt-1">-->
+                <!--<div class="custom-control custom-checkbox ">-->
+                  <!--<input type="checkbox" class="custom-control-input" id="selectAllValues"-->
+                         <!--[(ngModel)]="areAllChecked"-->
+                         <!--(click)="selectAll($event.target.checked); buildConditions()">-->
+                  <!--<label class="custom-control-label" for="selectAllValues">Select All</label>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div class="col-6 mt-1">-->
+                <!--<div class="custom-control custom-checkbox  float-right">-->
+                  <!--<input type="checkbox" class="custom-control-input" id="excludeValues">-->
+                  <!--<label class="custom-control-label" for="excludeValues">Exclude</label>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div class="col-12">-->
+                <!--<hr>-->
+                <!--<ng-container *ngFor="let qr of queryResultsFound">-->
+                  <!--<div class="custom-control custom-checkbox">-->
+                    <!--<input type="checkbox" class="custom-control-input"-->
+                           <!--(click)="qr.checked = !qr.checked; allChecked(); buildConditions();"-->
+                           <!--id="{{qr.name}}"-->
+                           <!--[(ngModel)]="qr.checked">-->
+                    <!--<ng-container *ngIf="dimensionSelected.type !== 'time'; else pipeDate">-->
+                      <!--<label class="custom-control-label"-->
+                             <!--[ngClass]="{dimmed: qr.dimmed}"-->
+                             <!--for="{{qr.name}}">-->
+                        <!--{{qr.name}}-->
+                      <!--</label>-->
+                    <!--</ng-container>-->
+                    <!--<ng-template #pipeDate>-->
+                      <!--<label class="custom-control-label" for="{{qr.name}}">{{qr.name | date}}</label>-->
+                    <!--</ng-template>-->
+                  <!--</div>-->
+                <!--</ng-container>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
