@@ -11,10 +11,10 @@ export class FilterComponent implements OnInit {
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1oYW5uZWNrZUBhbGlnbi1hbHl0aWNzLmNvbSIsImlzcyI6Im9tZWdh' +
-        'Iiwic3ViIjoxOSwidXNlciI6eyJpZCI6MTksInVzZXJfbmFtZSI6Im1oYW5uZWNrZUBhbGlnbi1hbHl0aWNzLmNvbSIsImZ1bGxfbmFtZSI6Ik1hcmNvcyBIYW5uZWN' +
-        'rZSIsImRpc2FibGVkIjpmYWxzZSwic3VwZXJfdXNlciI6dHJ1ZSwib3JnYW5pc2F0aW9uIjp7ImlkIjoxLCJuYW1lIjoiQWxpZ25BbHl0aWNzIiwic2V0dGluZ3MiOn' +
-        't9LCJpc19vd25lciI6ZmFsc2V9fSwiaWF0IjoxNTM5NTkyMTk0LCJleHAiOjE1Mzk2Nzg1OTR9.FvVTJkvFrG5zczxOPyg9Bk1UZeTivvX5EB-2vG6uOfg'
+      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1oYW5uZWNrZUBhbGlnbi1hbHl0aWNzLmNvbSIsImlzcyI6Im9tZ' +
+        'WdhIiwic3ViIjoxOSwidXNlciI6eyJpZCI6MTksInVzZXJfbmFtZSI6Im1oYW5uZWNrZUBhbGlnbi1hbHl0aWNzLmNvbSIsImZ1bGxfbmFtZSI6Ik1hcmNvcyBIYW' +
+        '5uZWNrZSIsImRpc2FibGVkIjpmYWxzZSwic3VwZXJfdXNlciI6dHJ1ZSwib3JnYW5pc2F0aW9uIjp7ImlkIjoxLCJuYW1lIjoiQWxpZ25BbHl0aWNzIiwic2V0dGlu' +
+        'Z3MiOnt9LCJpc19vd25lciI6ZmFsc2V9fSwiaWF0IjoxNTM5NjgyNzI0LCJleHAiOjE1Mzk3NjkxMjR9.sdGG4eoyvwVlRqYQRUEIxzlIlv3MUlhBpq6MYjg3p-8'
     })
   };
   dimensionSelected: Dimension;

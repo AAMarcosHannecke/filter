@@ -10,13 +10,35 @@ import {
   MatGridListModule,
   MatIconModule,
   MatInputModule,
-  MatListModule
+  MatListModule,
+  MatProgressSpinnerModule,
+  MatChipsModule
 } from '@angular/material';
 
 
 @NgModule({
-  imports: [MatButtonModule, MatCheckboxModule, MatCardModule, MatGridListModule, MatListModule, MatInputModule, MatIconModule],
-  exports: [MatButtonModule, MatCheckboxModule, MatCardModule, MatGridListModule, MatListModule, MatInputModule, MatIconModule],
+  imports: [
+    MatProgressSpinnerModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatCardModule,
+    MatGridListModule,
+    MatListModule,
+    MatInputModule,
+    MatIconModule,
+    MatChipsModule
+  ],
+  exports: [
+    MatProgressSpinnerModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatCardModule,
+    MatGridListModule,
+    MatListModule,
+    MatInputModule,
+    MatIconModule,
+    MatChipsModule
+  ],
 })
 export class MyOwnCustomMaterialModule {
 }
