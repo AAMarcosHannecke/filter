@@ -3,8 +3,12 @@
     <mat-card-title class="m-n p-10">
       <mat-chip-list>
         <mat-chip class="aa-chip" *ngFor="let cond of conditions">
-          {{cond['name']}}: <span *ngFor="let i of cond['in']" class="aa-condition"> {{i}}, </span>
-          <mat-icon>close</mat-icon>
+          {{cond['name']}}:
+          <span *ngFor="let i of cond['in'] | slice:0:3" class="aa-condition">
+            {{i}},
+          </span>
+          <span class="aa-condition" *ngIf="cond['in'].length > 3"> & {{cond['in'].length - 3}} other values</span>
+          <mat-icon (click)="buildConditions(cond)">close</mat-icon>
         </mat-chip>
       </mat-chip-list>
     </mat-card-title>

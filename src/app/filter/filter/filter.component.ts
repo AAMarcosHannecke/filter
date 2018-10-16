@@ -178,25 +178,29 @@ export class FilterComponent implements OnInit {
   /**
    * Build conditions
    */
-  buildConditions() {
+  buildConditions(cond?) {
+    if (!cond) {cond = ''; }
+
     this.conditions = [];
-    let cond;
+    let condition;
     this.dimensions.forEach(d => {
-      console.log(d);
-      if (d.values) {
-        cond = {
+      if (d.values ) {
+        condition = {
           'name': d.display_name,
           'in': d.values.map(v => {
-            if (v.checked) {
-              return v.name;
+            if (cond.name === d.display_name) {
+              v.checked = false;
+            } else if (v.checked) {
+              return v.name.toString();
             }
           }).filter(e => e)
         };
-        if (cond.in.length > 0) {
-          this.conditions.push(cond);
+        if (condition.in.length > 0) {
+          this.conditions.push(condition);
         }
       }
     });
+    this.allChecked();
   }
 
 }

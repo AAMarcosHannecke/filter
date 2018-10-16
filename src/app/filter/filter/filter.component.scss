@@ -2,7 +2,7 @@
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 $primary: #7851A9;
-$light-grey: #f9f9f9;
+$light-grey: #ececec;
 $dark-grey: #636363;
 $grey: #ccc;
 
@@ -36,7 +36,8 @@ $grey: #ccc;
 }
 
 .overflow {
-  overflow-y: scroll;
+  overflow: auto;
+  height: 100%;
 }
 
 .wh {
@@ -74,11 +75,15 @@ $grey: #ccc;
   a {
     font-size: 13px;
   }
-  &.active, &:hover {
+  &:hover{
+    background: $light-grey !important;
+  }
+  &.active {
     background: $primary !important;
     border-color: $primary !important;
     color: white !important;
   }
+
 }
 
 .aa-checkbox-list-item {
