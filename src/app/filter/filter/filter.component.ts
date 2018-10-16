@@ -18,12 +18,14 @@ export class FilterComponent implements OnInit {
     })
   };
   dimensionSelected: Dimension;
-  query: any;
+  query: Array<object>;
   queryResults: any;
   queryResultsFound: any;
   searchValue: string;
   areAllChecked: boolean;
   conditions: Array<object> = [];
+  spinner: boolean;
+
 
   @Input() endpoint: string;
   @Input() cardEndpoint: string;
@@ -84,6 +86,7 @@ export class FilterComponent implements OnInit {
     // Request
     this.http.post(`${this.endpoint}?action=query`, this.query, this.httpOptions)
       .subscribe((res): any => {
+        this.spinner = false;
         let resp: any = res;
         if (this.conditions.length > 0) {
           if (this.dimensions.find(obj => obj.display_name === this.dimensionSelected.display_name).values) {
@@ -91,17 +94,9 @@ export class FilterComponent implements OnInit {
           } else {
             resp = res[0];
           }
-          // res[1].forEach(dim => {
-          //   resp.forEach(r => {
-          //     if (r.name !== dim.name) {
-          //       r.dimmed = true;
-          //     }
-          //   });
-          // });
         }
 
-        this.queryResults = resp;
-        this.queryResultsFound = resp; // used for search
+        this.queryResults = this.queryResultsFound = resp; // used for search
 
         // dimension values
         this.dimensions.forEach(d => {
@@ -111,6 +106,7 @@ export class FilterComponent implements OnInit {
         });
         this.allChecked();
       }, err => {
+        this.spinner = false;
         console.log(err);
       });
   }
@@ -120,6 +116,7 @@ export class FilterComponent implements OnInit {
    * @param dimension --> Dimension selected
    */
   selectDimension(dimension: Dimension) {
+    this.spinner = true;
     this.dimensionSelected = dimension;
     this.areAllChecked = false;
     this.queryResultsFound = null;
@@ -177,25 +174,32 @@ export class FilterComponent implements OnInit {
 
   /**
    * Build conditions
+   * @param cond -->  removes 'cond' from 'this.conditions'
    */
   buildConditions(cond?) {
-    if (!cond) {cond = ''; }
-
+    if (!cond) {
+      cond = '';
+    }
     this.conditions = [];
+    let key = 'in';
     let condition;
+
     this.dimensions.forEach(d => {
-      if (d.values ) {
+      if (d.excluded) {
+        key = 'nin';
+      }
+      if (d.values) {
         condition = {
           'name': d.display_name,
-          'in': d.values.map(v => {
-            if (cond.name === d.display_name) {
-              v.checked = false;
-            } else if (v.checked) {
-              return v.name.toString();
-            }
-          }).filter(e => e)
         };
-        if (condition.in.length > 0) {
+        condition[key] = d.values.map(v => {
+          if (cond.name === d.display_name) {
+            v.checked = false;
+          } else if (v.checked) {
+            return v.name;
+          }
+        }).filter(e => e);
+        if (condition[key].length > 0) {
           this.conditions.push(condition);
         }
       }
@@ -203,4 +207,16 @@ export class FilterComponent implements OnInit {
     this.allChecked();
   }
 
+  /**
+   * Exclude option
+   * @param e --> param
+   */
+  exclude(e) {
+    this.dimensions.forEach(d => {
+      if (d.display_name === this.dimensionSelected.display_name) {
+        d.excluded = e.checked;
+      }
+    });
+    this.buildConditions();
+  }
 }
