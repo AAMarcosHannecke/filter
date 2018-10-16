@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Dimension} from '../models/dimension';
+import {MatDialog, MAT_DIALOG_DATA} from '@angular/material';
 
 @Component({
   selector: 'app-filter',
@@ -38,6 +39,10 @@ export class FilterComponent implements OnInit {
   ngOnInit() {
     this.dimensionSelected = {id: null};
 
+    if (!this.endpoint) {
+      this.endpoint = 'http://localhost:9000/api/v2/sources/2';
+      this.cardEndpoint = 'http://localhost:9000/api/v2/decks/1/cards/1';
+    }
     // Requests
     this.getRequest();
   }
@@ -218,5 +223,18 @@ export class FilterComponent implements OnInit {
       }
     });
     this.buildConditions();
+  }
+}
+
+@Component({
+  selector: 'app-dialog',
+  templateUrl: 'dialog.html',
+  styles: ['/deep/.mat-dialog-container{width: 60vw !important;  padding: 0 !important;}']
+})
+export class DialogComponent {
+  constructor(public dialog: MatDialog) {}
+
+  openDialog() {
+    this.dialog.open(FilterComponent, {});
   }
 }

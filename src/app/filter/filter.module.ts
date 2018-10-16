@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {HttpClientModule} from '@angular/common/http';
-import {FilterComponent} from './filter/filter.component';
+import {DialogComponent, FilterComponent} from './filter/filter.component';
 import {FormsModule} from '@angular/forms';
 import {
   MatButtonModule,
@@ -12,7 +12,8 @@ import {
   MatInputModule,
   MatListModule,
   MatProgressSpinnerModule,
-  MatChipsModule
+  MatChipsModule,
+  MatDialogModule
 } from '@angular/material';
 
 
@@ -26,7 +27,8 @@ import {
     MatListModule,
     MatInputModule,
     MatIconModule,
-    MatChipsModule
+    MatChipsModule,
+    MatDialogModule
   ],
   exports: [
     MatProgressSpinnerModule,
@@ -37,7 +39,8 @@ import {
     MatListModule,
     MatInputModule,
     MatIconModule,
-    MatChipsModule
+    MatChipsModule,
+    MatDialogModule
   ],
 })
 export class MyOwnCustomMaterialModule {
@@ -50,8 +53,8 @@ export class MyOwnCustomMaterialModule {
     FormsModule,
     MyOwnCustomMaterialModule
   ],
-  declarations: [FilterComponent],
-  exports: [FilterComponent]
+  declarations: [FilterComponent, DialogComponent],
+  exports: [FilterComponent, DialogComponent]
 })
 export class FilterModule {
 }

@@ -1,4 +1,4 @@
-<mat-card class="mat-drawer-container p-n">
+<mat-card class="mat-drawer-container p-n"  >
   <mat-card-header class="bg-white aa-card-header">
     <mat-card-title class="m-n p-10">
       <mat-chip-list>
@@ -23,9 +23,9 @@
     </mat-card-title>
   </mat-card-header>
   <mat-card-content class="aa-content">
-    <mat-grid-list [cols]="3">
-      <mat-grid-tile class="aa-dimensions" colspan="1">
-        <mat-nav-list class="aa-list p-n">
+    <mat-grid-list cols="3" rowHeight="fit" style="height: 80vh;">
+      <mat-grid-tile class="aa-dimensions" colspan="1" >
+        <mat-nav-list class="aa-list p-n" >
           <mat-list-item class="bg-white aa-list-item"
                          (click)="selectDimension(d)"
                          [ngClass]="{active: d.id === dimensionSelected.id}"
@@ -44,7 +44,7 @@
             Select a dimension to filter
           </div>
         </div>
-        <mat-list class="aa-list p-n" *ngIf="queryResults && !spinner">
+        <mat-list class="aa-list p-n" *ngIf="queryResults && !spinner" >
           <div class="search">
             <mat-icon class="search-icon">search</mat-icon>
             <mat-form-field class="search-input p-n">
@@ -61,7 +61,6 @@
               Exclude
             </mat-checkbox>
           </mat-list-item>
-          <div class="overflow">
             <ng-container *ngFor="let qr of queryResultsFound">
               <mat-list-item class="bg-white aa-checkbox-list-item">
                 <ng-container *ngIf="dimensionSelected.type !== 'time'; else pipeDate">
@@ -76,7 +75,6 @@
                 </ng-template>
               </mat-list-item>
             </ng-container>
-          </div>
         </mat-list>
       </mat-grid-tile>
     </mat-grid-list>

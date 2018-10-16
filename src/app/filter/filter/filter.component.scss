@@ -53,9 +53,12 @@ $grey: #ccc;
   background: $dark-grey !important;
 }
 
-.mat-list, .mat-nav-list, .mat-selection-list {
+ .mat-list, .mat-nav-list, .mat-selection-list {
   width: 100%;
   height: 100%;
+}
+.mat-grid-tile {
+  overflow: auto;
 }
 
 .aa-list-item {
