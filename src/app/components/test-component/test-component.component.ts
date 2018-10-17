@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Dimension} from '../../filter/models/dimension';
+import {Dimension} from '../../filter/model/dimension';
 
 @Component({
   selector: 'app-test-component',

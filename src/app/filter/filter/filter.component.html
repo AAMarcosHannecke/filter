@@ -53,7 +53,8 @@
               Select All
             </mat-checkbox>
             <span class="spacer"></span>
-            <mat-checkbox class="float-right" #excluded (change)="exclude(excluded)" [(ngModel)]="dimensionSelected.excluded">
+            <mat-checkbox class="float-right" #excluded (change)="exclude(excluded)"
+                          [(ngModel)]="dimensionSelected['excluded']">
               Exclude
             </mat-checkbox>
           </mat-list-item>

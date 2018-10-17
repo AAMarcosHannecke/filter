@@ -4,9 +4,9 @@ import {FilterComponent} from './filter/filter/filter.component';
 import {TestComponentComponent} from './components/test-component/test-component.component';
 
 const routes: Routes = [
-  {
-    path: 'filter', component: FilterComponent,
-  },
+  // {
+  //   path: 'filter', component: FilterComponent,
+  // },
   {
     path: '', component: TestComponentComponent
   }

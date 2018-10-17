@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Dimension} from '../models/dimension';
+import {Dimension} from '../model/dimension';
 import {MatDialog} from '@angular/material';
 
 @Component({
