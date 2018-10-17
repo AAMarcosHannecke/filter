@@ -10,17 +10,12 @@ e.g. `src/app/components/filter`
 2. Add FilterModule to the imports in app.module.ts
 3. Add directive `<app-filter></app-filter>` to the component template where you want to use the filter
 
-### Directive properties
+## Directive properties
 
 | Name                           | Description |
 |--------------------------------|-------------|
-| @Input()                       |             |
-| endpoint: string               |             |
-|                                |             |
-| @Input()                       |             |
-| cardEnpoint: string               |             |
-|                                |             |
-| @Input()                       |             |
-| dimensions: string               |             |
+| @Input() endpoint: string      |             |
+| @Input() cardEndpoint: string  |             |
+| @Input() dimensions: string    |             |
 
 
