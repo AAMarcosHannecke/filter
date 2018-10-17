@@ -74,4 +74,12 @@ export class TestComponentComponent implements OnInit {
       },
     ];
   }
+
+  /**
+   * log query
+   * @param e --> $event
+   */
+  log(e) {
+    console.log('query', e);
+  }
 }

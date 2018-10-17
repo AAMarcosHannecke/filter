@@ -1,7 +1,8 @@
 # Filter Module
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.2.3.
 
-
+## Requirements
+* Angular material `https://material.angular.io/guide/getting-started`
 
 ## Getting started
 

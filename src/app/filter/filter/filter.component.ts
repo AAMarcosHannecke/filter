@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Dimension} from '../model/dimension';
 import {MatDialog} from '@angular/material';
@@ -12,10 +12,10 @@ export class FilterComponent implements OnInit {
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1oYW5uZWNrZUBhbGlnbi1hbHl0aWNzLmNvbSIsImlzcyI6Im9t' +
-        'ZWdhIiwic3ViIjoxOSwidXNlciI6eyJpZCI6MTksInVzZXJfbmFtZSI6Im1oYW5uZWNrZUBhbGlnbi1hbHl0aWNzLmNvbSIsImZ1bGxfbmFtZSI6Ik1hcmNvcyBI' +
-        'YW5uZWNrZSIsImRpc2FibGVkIjpmYWxzZSwic3VwZXJfdXNlciI6dHJ1ZSwib3JnYW5pc2F0aW9uIjp7ImlkIjoxLCJuYW1lIjoiQWxpZ25BbHl0aWNzIiwic2V0d' +
-        'GluZ3MiOnt9LCJpc19vd25lciI6ZmFsc2V9fSwiaWF0IjoxNTM5NzY5MTc2LCJleHAiOjE1Mzk4NTU1NzZ9.Oyo9Siatj4U1zanmaKfm1ud717gKel4PuuiA4n2xzS4'
+      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1oYW5uZWNrZUBhbGlnbi1hbHl0aWNzLmNvbSIsImlzcyI6Im9tZWdh' +
+        'Iiwic3ViIjoxOSwidXNlciI6eyJpZCI6MTksInVzZXJfbmFtZSI6Im1oYW5uZWNrZUBhbGlnbi1hbHl0aWNzLmNvbSIsImZ1bGxfbmFtZSI6Ik1hcmNvcyBIYW5uZWN' +
+        'rZSIsImRpc2FibGVkIjpmYWxzZSwic3VwZXJfdXNlciI6dHJ1ZSwib3JnYW5pc2F0aW9uIjp7ImlkIjoxLCJuYW1lIjoiQWxpZ25BbHl0aWNzIiwic2V0dGluZ3Mi' +
+        'Ont9LCJpc19vd25lciI6ZmFsc2V9fSwiaWF0IjoxNTM5NzY5MTc2LCJleHAiOjE1Mzk4NTU1NzZ9.Oyo9Siatj4U1zanmaKfm1ud717gKel4PuuiA4n2xzS4'
     })
   };
   dimensionSelected: Dimension;
@@ -30,6 +30,8 @@ export class FilterComponent implements OnInit {
   @Input() endpoint: string;
   @Input() cardEndpoint: string;
   @Input() dimensions: any;
+  @Output() outputQuery = new EventEmitter();
+
 
   constructor(private http: HttpClient) {
   }
@@ -51,7 +53,7 @@ export class FilterComponent implements OnInit {
   /**
    * GET
    */
-  getRequest() {
+  private getRequest() {
     this.http.get(this.cardEndpoint, this.httpOptions)
       .subscribe((res): any => {
         this.dimensions = res['data_source'].dimensions;
@@ -63,7 +65,7 @@ export class FilterComponent implements OnInit {
   /**
    * POST
    */
-  postRequest() {
+  private postRequest() {
     this.dimensionSelected['dimmed'] = [];
 
     // Build query
@@ -76,7 +78,13 @@ export class FilterComponent implements OnInit {
         'simple': true
       }
     ];
-    if (this.conditions.length > 0) {
+
+    // filter conditions for dimension selected
+    const cond = this.conditions.filter(e => {
+      return e['name'] !== this.dimensionSelected.display_name;
+    });
+
+    if (cond.length > 0) {
       this.query.push(
         {
           'fields': [{
@@ -84,12 +92,14 @@ export class FilterComponent implements OnInit {
             alias: 'name'
           }],
           'filter': {
-            'conditions': this.conditions
+            'conditions': cond
           },
           'simple': true
         }
       );
     }
+
+    this.outputQuery.emit(this.query);
 
     // Request
     this.http.post(`${this.endpoint}?action=query`, this.query, this.httpOptions)
@@ -97,6 +107,7 @@ export class FilterComponent implements OnInit {
         this.spinner = false;
         let resp: any = res;
         if (this.conditions.length > 0) {
+          console.log('name', this.query[1]['fields'][0].name);
           this.dimensionSelected['dimmed'] = res[1].map(r => r.name);
           console.log(this.dimensionSelected['dimmed']);
 
@@ -211,7 +222,7 @@ export class FilterComponent implements OnInit {
           } else if (v.checked) {
             return v.name;
           }
-        }).filter(e => e);
+        }).filter(e => e); // filter undefined values
         if (condition[key].length > 0) {
           this.conditions.push(condition);
         }

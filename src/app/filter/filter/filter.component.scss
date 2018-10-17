@@ -49,7 +49,7 @@ $grey: #ccc;
   text-align: center;
 }
 
-/deep/ .mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+#filter /deep/ .mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
   background: $dark-grey !important;
 }
 
@@ -145,6 +145,10 @@ label {
     width: 100% !important;
     display: inline-block !important;
   }
+}
+
+.aa-grid-list {
+  height: 80vh;
 }
 
 .dimmed {

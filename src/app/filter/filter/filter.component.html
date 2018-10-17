@@ -1,4 +1,4 @@
-<mat-card class="mat-drawer-container p-n">
+<mat-card class="mat-drawer-container p-n" id="filter">
   <mat-card-header class="bg-white aa-card-header">
     <mat-card-title class="m-n p-10">
       <mat-chip-list>
@@ -19,8 +19,8 @@
     </mat-card-title>
   </mat-card-header>
   <mat-card-content class="aa-content">
-    <mat-grid-list cols="3" rowHeight="fit" style="height: 80vh;">
-      <mat-grid-tile class="aa-dimensions" colspan="1">
+    <mat-grid-list [cols]="3" rowHeight="fit" class="aa-grid-list" >
+      <mat-grid-tile class="aa-dimensions" [colspan]="1">
         <mat-nav-list class="aa-list p-n">
           <mat-list-item class="bg-white aa-list-item"
                          (click)="selectDimension(d)"
@@ -30,8 +30,8 @@
           </mat-list-item>
         </mat-nav-list>
       </mat-grid-tile>
-      <mat-grid-tile colspan="2">
-        <mat-spinner diameter="50" *ngIf="spinner"></mat-spinner>
+      <mat-grid-tile [colspan]="2">
+        <mat-spinner [diameter]="50" *ngIf="spinner"></mat-spinner>
         <div *ngIf="!queryResults && !spinner" class="grey flex-column ">
           <div class="flex-item">
             <mat-icon class="aa-filter-icon wh">filter_list</mat-icon>
