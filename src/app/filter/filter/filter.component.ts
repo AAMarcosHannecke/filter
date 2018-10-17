@@ -12,10 +12,10 @@ export class FilterComponent implements OnInit {
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1oYW5uZWNrZUBhbGlnbi1hbHl0aWNzLmNvbSIsImlzcyI6Im9tZ' +
-        'WdhIiwic3ViIjoxOSwidXNlciI6eyJpZCI6MTksInVzZXJfbmFtZSI6Im1oYW5uZWNrZUBhbGlnbi1hbHl0aWNzLmNvbSIsImZ1bGxfbmFtZSI6Ik1hcmNvcyBIYW' +
-        '5uZWNrZSIsImRpc2FibGVkIjpmYWxzZSwic3VwZXJfdXNlciI6dHJ1ZSwib3JnYW5pc2F0aW9uIjp7ImlkIjoxLCJuYW1lIjoiQWxpZ25BbHl0aWNzIiwic2V0dGlu' +
-        'Z3MiOnt9LCJpc19vd25lciI6ZmFsc2V9fSwiaWF0IjoxNTM5NjgyNzI0LCJleHAiOjE1Mzk3NjkxMjR9.sdGG4eoyvwVlRqYQRUEIxzlIlv3MUlhBpq6MYjg3p-8'
+      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1oYW5uZWNrZUBhbGlnbi1hbHl0aWNzLmNvbSIsImlzcyI6Im9t' +
+        'ZWdhIiwic3ViIjoxOSwidXNlciI6eyJpZCI6MTksInVzZXJfbmFtZSI6Im1oYW5uZWNrZUBhbGlnbi1hbHl0aWNzLmNvbSIsImZ1bGxfbmFtZSI6Ik1hcmNvcyBI' +
+        'YW5uZWNrZSIsImRpc2FibGVkIjpmYWxzZSwic3VwZXJfdXNlciI6dHJ1ZSwib3JnYW5pc2F0aW9uIjp7ImlkIjoxLCJuYW1lIjoiQWxpZ25BbHl0aWNzIiwic2V0d' +
+        'GluZ3MiOnt9LCJpc19vd25lciI6ZmFsc2V9fSwiaWF0IjoxNTM5NzY5MTc2LCJleHAiOjE1Mzk4NTU1NzZ9.Oyo9Siatj4U1zanmaKfm1ud717gKel4PuuiA4n2xzS4'
     })
   };
   dimensionSelected: Dimension;
@@ -27,11 +27,9 @@ export class FilterComponent implements OnInit {
   conditions: Array<object> = [];
   spinner: boolean;
 
-
   @Input() endpoint: string;
   @Input() cardEndpoint: string;
   @Input() dimensions: any;
-
 
   constructor(private http: HttpClient) {
   }
@@ -44,7 +42,10 @@ export class FilterComponent implements OnInit {
       this.cardEndpoint = 'http://localhost:9000/api/v2/decks/1/cards/1';
     }
     // Requests
-    this.getRequest();
+    if (!this.dimensions) {
+      this.getRequest();
+    }
+
   }
 
   /**
@@ -63,6 +64,8 @@ export class FilterComponent implements OnInit {
    * POST
    */
   postRequest() {
+    this.dimensionSelected['dimmed'] = [];
+
     // Build query
     this.query = [
       {
@@ -94,19 +97,22 @@ export class FilterComponent implements OnInit {
         this.spinner = false;
         let resp: any = res;
         if (this.conditions.length > 0) {
+          this.dimensionSelected['dimmed'] = res[1].map(r => r.name);
+          console.log(this.dimensionSelected['dimmed']);
+
           if (this.dimensions.find(obj => obj.display_name === this.dimensionSelected.display_name).values) {
             resp = this.dimensions.find(obj => obj.display_name === this.dimensionSelected.display_name).values;
+
           } else {
             resp = res[0];
           }
         }
 
-        this.queryResults = this.queryResultsFound = resp; // used for search
-
+        this.queryResults = this.queryResultsFound = resp;
         // dimension values
         this.dimensions.forEach(d => {
           if (d.display_name === this.dimensionSelected.display_name) {
-            d.values = resp;
+            d.values = resp; // used for search
           }
         });
         this.allChecked();
@@ -158,6 +164,10 @@ export class FilterComponent implements OnInit {
    */
   allChecked() {
     this.areAllChecked = this.queryResultsFound.every(qr => qr.checked);
+    // if all unchecked  && no conditions removed dimmed
+    if (this.queryResultsFound.every(qr => !qr.checked) && this.conditions.length === 0) {
+      this.dimensionSelected['dimmed'] = [];
+    }
   }
 
   /**

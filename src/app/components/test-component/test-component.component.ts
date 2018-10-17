@@ -66,7 +66,7 @@ export class TestComponentComponent implements OnInit {
       },
       {
         data_options: {},
-        display_name: 'Month',
+        display_name: 'Montha',
         id: 14,
         options: {format: '%b %y'},
         type: 'time',

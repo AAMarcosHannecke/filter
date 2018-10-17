@@ -62,6 +62,9 @@
             <mat-list-item class="bg-white aa-checkbox-list-item">
               <ng-container *ngIf="dimensionSelected.type !== 'time'; else pipeDate">
                 <mat-checkbox class="aa-checkbox" [(ngModel)]="qr.checked"
+                              [ngClass]="{
+                              'dimmed': !this.dimensionSelected['dimmed'].includes(qr.name)
+                              && this.dimensionSelected['dimmed'].length > 0}"
                               (change)="allChecked();  buildConditions();"> {{qr.name}}
                 </mat-checkbox>
               </ng-container>
