@@ -12,10 +12,10 @@ e.g. `src/app/components/filter`
 
 ## Directive properties
 
-| Name                           | Description |
-|--------------------------------|-------------|
-| @Input() endpoint: string      |             |
-| @Input() cardEndpoint: string  |             |
-| @Input() dimensions: string    |             |
+| Name                                | Description |
+|-------------------------------------|-------------|
+| @Input() <br> endpoint: string      |  Endpoint to make queries            |
+| @Input() <br> cardEndpoint: string  |  Endpoint to get card dimensions         |
+| @Input() <br> dimensions: string    |  Card dimensions            |
 
 
