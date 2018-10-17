@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Dimension} from '../models/dimension';
-import {MatDialog, MAT_DIALOG_DATA} from '@angular/material';
+import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'app-filter',
@@ -146,11 +146,10 @@ export class FilterComponent implements OnInit {
   selectAll() {
     if (this.areAllChecked) {
       this.queryResultsFound.forEach(qr => qr.checked = true);
-      this.areAllChecked = true;
+      // this.areAllChecked = true;
     } else {
       this.queryResultsFound.forEach(qr => qr.checked = false);
-      this.areAllChecked = false;
-
+      // this.areAllChecked = false;
     }
   }
 
@@ -186,10 +185,9 @@ export class FilterComponent implements OnInit {
       cond = '';
     }
     this.conditions = [];
-    let key = 'in';
     let condition;
-
     this.dimensions.forEach(d => {
+      let key = 'in';
       if (d.excluded) {
         key = 'nin';
       }
@@ -226,13 +224,17 @@ export class FilterComponent implements OnInit {
   }
 }
 
+/**
+ * Dialog component for test purposes
+ */
 @Component({
   selector: 'app-dialog',
   templateUrl: 'dialog.html',
-  styles: ['/deep/.mat-dialog-container{width: 60vw !important;  padding: 0 !important;}']
+  styles: ['/deep/.mat-dialog-container{min-width: 60vw !important;  padding: 0 !important;}']
 })
 export class DialogComponent {
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog) {
+  }
 
   openDialog() {
     this.dialog.open(FilterComponent, {});
